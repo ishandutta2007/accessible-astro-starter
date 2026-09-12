@@ -14,6 +14,15 @@ import {
   Card,
   Checkbox,
   DarkMode,
+  DataTable,
+  DataTableHeader,
+  DataTableColumn,
+  DataTableBody,
+  DataTableRow,
+  DataTableCell,
+  DataTableSearch,
+  DataTableInfo,
+  DataTablePagination,
   Drawer,
   Fieldset,
   Form,
@@ -46,6 +55,7 @@ const components = [
   { name: 'Button', id: 'button' },
   { name: 'Card', id: 'card' },
   { name: 'Dark mode toggle', id: 'darkmode' },
+  { name: 'DataTable', id: 'data-table' },
   { name: 'Drawer', id: 'drawer' },
   { name: 'Form', id: 'form' },
   { name: 'Heading', id: 'heading' },
@@ -62,6 +72,13 @@ const components = [
   { name: 'Toast', id: 'toast' },
   { name: 'Tooltip', id: 'tooltip' },
   { name: 'Video', id: 'video' },
+]
+
+const tableProjects = [
+  { name: 'Acme Starter', users: 1280, updated: '2026-02-10' },
+  { name: 'Beacon Dashboard', users: 642, updated: '2026-01-22' },
+  { name: 'Citrine Docs', users: 2890, updated: '2026-02-17' },
+  { name: 'A project with a longer descriptive name', users: 35, updated: '2026-03-01' },
 ]
 ---
 
@@ -349,6 +366,33 @@ const components = [
           <Icon aria-hidden="true" name="lucide:sunrise" slot="light" />
           <Icon aria-hidden="true" name="lucide:sunset" slot="dark" />
         </DarkMode>
+
+        <Heading level="h2" id="data-table">DataTable</Heading>
+        <p>Search all projects, sort columns, and navigate pages. Long names wrap while column widths remain stable.</p>
+        <DataTable caption="Projects" pageSize={3} style="--data-table-min-width: 32rem">
+          <DataTableSearch slot="search" label="Search projects" />
+          <DataTableInfo slot="info" start={1} end={tableProjects.length} total={tableProjects.length} />
+          <DataTableHeader>
+            <DataTableColumn sortable width="50%">Project</DataTableColumn>
+            <DataTableColumn sortable numeric width="20%">Users</DataTableColumn>
+            <DataTableColumn sortable width="30%">Updated</DataTableColumn>
+          </DataTableHeader>
+          <DataTableBody>
+            {
+              tableProjects.map((project) => (
+                <DataTableRow>
+                  <DataTableCell as="th">{project.name}</DataTableCell>
+                  <DataTableCell numeric sortValue={project.users}>
+                    {project.users.toLocaleString('en-US')}
+                  </DataTableCell>
+                  <DataTableCell sortValue={project.updated}>{project.updated}</DataTableCell>
+                </DataTableRow>
+              ))
+            }
+          </DataTableBody>
+          <DataTablePagination slot="footer" client ariaLabel="Projects pagination" />
+        </DataTable>
+        <p><a href="https://accessible-astro.incluud.dev/components/data-table/">DataTable documentation</a></p>
 
         <Heading level="h2" id="drawer">Drawer</Heading>
         <p>
